@@ -11,13 +11,13 @@ public class SnakeMovement : MonoBehaviour
 
     void Start()
     {
-        ChangeDirection(0);
+        ChangeDirection(2);
         InvokeRepeating("MoveSnake", 0, _repeatRate);
     }
 
     private void MoveSnake()
     {
-        this.transform.position += _currentDirection;
+        transform.position += _currentDirection;
         //todo snakeNode movement-method call
     }
 

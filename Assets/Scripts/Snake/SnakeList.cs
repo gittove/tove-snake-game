@@ -22,14 +22,13 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
         public GameObject nodeItem;
         public SnakeNode nextNode;
         public int index = -1;
-        public Vector2 nodePosition;
+        public Vector3 nodePosition;
 
-        public SnakeNode(GameObject item, SnakeNode node, int i, Vector2 position)
+        public SnakeNode(GameObject item, SnakeNode node, int i)
         {
             nodeItem = item;
             nextNode = node;
             index = i;
-            nodePosition = position;
         }
     }
 
@@ -39,7 +38,7 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
     public void Add(GameObject item)
     {
         SnakeNode tailNode = _tail;
-        SnakeNode node = new SnakeNode(item, null, _count, tailNode.nodePosition);
+        SnakeNode node = new SnakeNode(item, null, _count);
 
         if (_count == 0)
         {
@@ -53,6 +52,17 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
         }
 
         _count++;
+    }
+
+    public void MoveNode(SnakeList<GameObject> snakeBody)
+    {
+        SnakeNode currentNode = _head.nextNode;
+
+        while (currentNode != null)
+        {
+            currentNode.nodePosition = currentNode.nextNode.nodePosition;
+            currentNode = currentNode.nextNode;
+        }
     }
 
     public void Clear()
