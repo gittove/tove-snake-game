@@ -5,41 +5,36 @@ using System;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public int gridWidth;
-    public int gridHeight;
+    public int width;
+    public int height;
+    [NonSerialized] public static GameObject[,] gridSpaces;
 
-    private int width;
-    private int height;
+    private int _gridWidth;
+    private int _gridHeight;
     private Grid _grid;
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
 
     private void Start()
     {
-        StartCoroutine(Generate());
-        width = _grid.GetWidth(_grid);
-        height = _grid.GetHeight(_grid);
-        Level.instance.gridSpaces = new GameObject[width,height];
+        _grid = new Grid(width, height);
+        _gridWidth = _grid.GetWidth(_grid);
+        _gridHeight = _grid.GetHeight(_grid);
+
+        gridSpaces = new GameObject[_gridWidth, _gridHeight];
+
         SetupTiles();
-    }
-
-    private IEnumerator Generate()
-    {
-        WaitForSeconds wait = new WaitForSeconds(0.05f);
-        _grid = new Grid(gridWidth, gridHeight);
-
-        yield return wait;
     }
 
     private void SetupTiles()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < _gridWidth; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < _gridHeight; y++)
             {
                 GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
                 tileGo.name = $"Tile_({x}, {y})";
-                Level.instance.gridSpaces[x, y] = tileGo;
+                gridSpaces[x, y] = tileGo;
             }
         }
     }

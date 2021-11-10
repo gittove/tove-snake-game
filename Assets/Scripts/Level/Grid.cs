@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//do i even need this wtf
+
 public class Grid
 {
     private int _width;
