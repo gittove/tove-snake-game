@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 5
   gridHeight: 5
+  _tilePrefab: {fileID: 7830606774910447708, guid: d0121cba1a175d94d9c28342963b3c23, type: 3}
+  _tilesTransform: {fileID: 1643739990}
 --- !u!4 &65845436
 Transform:
   m_ObjectHideFlags: 0
@@ -364,6 +366,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1643739989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1643739990}
+  m_Layer: 0
+  m_Name: Board
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1643739990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643739989}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3788619723556698970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -377,11 +409,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 215568926169739280, guid: 3e8e29fcc885f6b45a4768faf750ed39, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 215568926169739280, guid: 3e8e29fcc885f6b45a4768faf750ed39, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.004
       objectReference: {fileID: 0}
     - target: {fileID: 215568926169739280, guid: 3e8e29fcc885f6b45a4768faf750ed39, type: 3}
       propertyPath: m_LocalPosition.z
@@ -427,5 +459,9 @@ PrefabInstance:
       propertyPath: _bodyPrefab2
       value: 
       objectReference: {fileID: 6037888739555396926, guid: 74e7017084e67ea4fa1934921852bb7a, type: 3}
+    - target: {fileID: 6769999526941860657, guid: 3e8e29fcc885f6b45a4768faf750ed39, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e8e29fcc885f6b45a4768faf750ed39, type: 3}

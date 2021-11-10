@@ -32,9 +32,6 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
         }
     }
 
-    // do we need this?
-    public int Count { get => _count; }
-
     public void Add(GameObject item)
     {
         SnakeNode tailNode = _tail;

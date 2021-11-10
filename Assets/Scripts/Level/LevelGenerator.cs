@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LevelGenerator : MonoBehaviour
 {
     public int gridWidth;
     public int gridHeight;
 
-    private Vector3 offset = new Vector3(1f, 1f, 0);
-
-   // private Vector2[,] grid;
+    private int width;
+    private int height;
     private Grid _grid;
+    [SerializeField] private GameObject _tilePrefab;
+    [SerializeField] private Transform _tilesTransform;
 
     private void Start()
     {
         StartCoroutine(Generate());
+        width = _grid.GetWidth(_grid);
+        height = _grid.GetHeight(_grid);
+        Level.instance.gridSpaces = new GameObject[width,height];
+        SetupTiles();
     }
 
     private IEnumerator Generate()
@@ -25,16 +31,15 @@ public class LevelGenerator : MonoBehaviour
         yield return wait;
     }
 
-    private void OnDrawGizmos()
+    private void SetupTiles()
     {
-        if (_grid == null) return;
-
-        Gizmos.color = Color.black;
-        for (int i = 0; i < _grid.GetHeight(_grid); i++)
+        for (int x = 0; x < width; x++)
         {
-            for (int k = 0; k < _grid.GetWidth(_grid); k++)
+            for (int y = 0; y < height; y++)
             {
-                Gizmos.DrawCube(new Vector3(i, k, 0), offset);
+                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
+                tileGo.name = $"Tile_({x}, {y})";
+                Level.instance.gridSpaces[x, y] = tileGo;
             }
         }
     }
