@@ -7,6 +7,8 @@ public class LevelGenerator : MonoBehaviour
     public int gridWidth;
     public int gridHeight;
 
+    private Vector3 offset = new Vector3(1f, 1f, 0);
+
    // private Vector2[,] grid;
     private Grid _grid;
 
@@ -32,7 +34,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int k = 0; k < _grid.GetWidth(_grid); k++)
             {
-                Gizmos.DrawCube(new Vector3(i, k, 0), new Vector3(0.05f, 0.05f, 0));
+                Gizmos.DrawCube(new Vector3(i, k, 0), offset);
             }
         }
     }
