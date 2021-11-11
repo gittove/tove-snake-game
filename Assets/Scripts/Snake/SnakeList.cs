@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeList<GameObject> : ISnakeBody<GameObject>
+public class SnakeList<T>
 {
     private SnakeNode _head;
     private SnakeNode _tail;
     private int _count;
-
 
     public SnakeList()
     {
@@ -29,9 +28,10 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
             nodeItem = item;
             nextNode = node;
             index = i;
+            nodePosition = item.transform.position;
         }
     }
-
+    // change dis lator:)
     public void Add(GameObject item)
     {
         SnakeNode tailNode = _tail;
@@ -40,6 +40,7 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
         if (_count == 0)
         {
             _head = node;
+            _tail = node;
         }
 
         else
@@ -51,13 +52,36 @@ public class SnakeList<GameObject> : ISnakeBody<GameObject>
         _count++;
     }
 
-    public void MoveNode(SnakeList<GameObject> snakeBody)
+    public void InsertBodyPart(GameObject item)
     {
+        SnakeNode insertIndex = _head.nextNode;
+        SnakeNode newNode;
+
+        newNode = new SnakeNode(item, null, insertIndex.index);
+        _head.nextNode = newNode;
+        IncreaseIndex(insertIndex);
+        _count++;
+    }
+
+    private void IncreaseIndex(SnakeNode node)
+    {
+        while (node != null)
+        {
+            node.index++;
+            node = node.nextNode;
+        }
+    }
+
+    public void MoveNodes(Vector3 headTransform)
+    {
+        _head.nodeItem.transform.position = headTransform;
         SnakeNode currentNode = _head.nextNode;
+        SnakeNode previousNode = _head;
 
         while (currentNode != null)
         {
-            currentNode.nodePosition = currentNode.nextNode.nodePosition;
+            currentNode.nodeItem.transform.position = previousNode.nodeItem.transform.position;
+            previousNode = currentNode;
             currentNode = currentNode.nextNode;
         }
     }

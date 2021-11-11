@@ -15,14 +15,16 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
 
-    private void Start()
+    private void Awake()
     {
         _grid = new Grid(width, height);
         gridWidth = _grid.GetWidth(_grid);
         gridHeight = _grid.GetHeight(_grid);
-
         gridSpaces = new GameObject[gridWidth, gridHeight];
+    }
 
+    private void Start()
+    {
         SetupTiles();
     }
 

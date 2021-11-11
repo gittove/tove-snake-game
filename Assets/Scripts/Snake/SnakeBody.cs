@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class SnakeBody : MonoBehaviour
 {
-    private SnakeList<GameObject> _snakeBody;
+    public SnakeList<GameObject> _snakeBody;
     [SerializeField] private GameObject _bodyPrefab1;
     [SerializeField] private GameObject _bodyPrefab2;
-    [SerializeField] private GameObject _tail;
+    [SerializeField] private GameObject _tailPrefab;
+    private GameObject _tail;
+    private GameObject _body;
 
-    void Start()
+    private void Awake()
     {
         CreateSnake();
     }
@@ -18,17 +20,19 @@ public class SnakeBody : MonoBehaviour
     {
         _snakeBody = new SnakeList<GameObject>();
         _snakeBody.Add(this.gameObject);
+        _tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
+        _snakeBody.Add(_tail);
     }
 
     void AddBodyPart()
     {
-        _snakeBody.Add(_bodyPrefab1);
+        _body = Instantiate(_bodyPrefab1, this.transform.position, Quaternion.identity);
+        _snakeBody.InsertBodyPart(_body);
     }
-    // todo AddBodyPart() -> call method when snek eats snack, add body prefab to _snakeBody
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.otherCollider.tag == "Fruit")
+        if (collider.CompareTag("Fruit"))
         {
             AddBodyPart();
         }

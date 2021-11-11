@@ -11,12 +11,13 @@ public class SnakeMovement : MonoBehaviour
     private Vector3 _currentPosition;
     private Vector3Int _currentDirection;
     private Vector3Int[] _directions = new Vector3Int[4] {Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
+    private SnakeBody snakeBody;
     private GameObject[,] _gridSpaces;
 
     void Start()
     {
+        snakeBody = GetComponent<SnakeBody>();
         moveTimer = 0f;
-      // _gridSpaces = LevelGenerator.gridSpaces;
 
         ChangeDirection(2);
     }
@@ -36,6 +37,7 @@ public class SnakeMovement : MonoBehaviour
 
     private void MoveSnake()
     {
+        snakeBody._snakeBody.MoveNodes(transform.position);
         transform.position += _currentDirection;
 
         if (LevelGenerator.gridSpaces[(int)_currentPosition.x, (int)_currentPosition.y] == null)
