@@ -59,7 +59,7 @@
     <Compile Include="Assets\Scripts\Snake\ISnakeBody.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeList.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeMovement.cs" />
-    <Compile Include="Assets\Scripts\Level\Level.cs" />
+    <Compile Include="Assets\Scripts\Level\Fruit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

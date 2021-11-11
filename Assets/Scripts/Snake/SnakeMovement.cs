@@ -5,30 +5,47 @@ using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
 {
+    [SerializeField] private float moveQueue;
     private float moveTimer;
-    private float moveQueue;
     private float _repeatRate = 5f;
     private Vector3 _currentPosition;
     private Vector3Int _currentDirection;
     private Vector3Int[] _directions = new Vector3Int[4] {Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
+    private GameObject[,] _gridSpaces;
 
     void Start()
     {
         moveTimer = 0f;
-        moveQueue = 1f;
+      // _gridSpaces = LevelGenerator.gridSpaces;
 
         ChangeDirection(2);
     }
 
     private void Update()
     {
+        Inputs();
+
         moveTimer += Time.deltaTime;
+
         if (moveTimer >= moveQueue)
         {
             MoveSnake();
-            moveQueue += 1f;
+            moveTimer = 0f;
         }
+    }
 
+    private void MoveSnake()
+    {
+        transform.position += _currentDirection;
+
+        if (LevelGenerator.gridSpaces[(int)_currentPosition.x, (int)_currentPosition.y] == null)
+        {
+            // do ded
+        }
+    }
+
+    private void Inputs()
+    {
         if (Input.GetKey(KeyCode.W))
         {
             ChangeDirection(0);
@@ -45,23 +62,6 @@ public class SnakeMovement : MonoBehaviour
         {
             ChangeDirection(3);
         }
-    }
-
-    private void MoveSnake()
-    {
-        transform.position += _currentDirection;
-
-        if (LevelGenerator.gridSpaces[(int)_currentPosition.x, (int)_currentPosition.y] == null)
-        {
-            // do ded
-        }
-
-        //todo snakeNode movement-method call
-    }
-
-    private void Inputs()
-    {
-        
     }
 
     private void ChangeDirection(int i)

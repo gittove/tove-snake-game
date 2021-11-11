@@ -7,10 +7,10 @@ public class LevelGenerator : MonoBehaviour
 {
     public int width;
     public int height;
+    public static int gridWidth;
+    public static int gridHeight;
     [NonSerialized] public static GameObject[,] gridSpaces;
 
-    private int _gridWidth;
-    private int _gridHeight;
     private Grid _grid;
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
@@ -18,19 +18,19 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
         _grid = new Grid(width, height);
-        _gridWidth = _grid.GetWidth(_grid);
-        _gridHeight = _grid.GetHeight(_grid);
+        gridWidth = _grid.GetWidth(_grid);
+        gridHeight = _grid.GetHeight(_grid);
 
-        gridSpaces = new GameObject[_gridWidth, _gridHeight];
+        gridSpaces = new GameObject[gridWidth, gridHeight];
 
         SetupTiles();
     }
 
     private void SetupTiles()
     {
-        for (int x = 0; x < _gridWidth; x++)
+        for (int x = 0; x < gridWidth; x++)
         {
-            for (int y = 0; y < _gridHeight; y++)
+            for (int y = 0; y < gridHeight; y++)
             {
                 GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
                 tileGo.name = $"Tile_({x}, {y})";

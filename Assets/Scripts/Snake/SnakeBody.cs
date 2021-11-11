@@ -22,7 +22,21 @@ public class SnakeBody : MonoBehaviour
 
     void AddBodyPart()
     {
-
+        _snakeBody.Add(_bodyPrefab1);
     }
     // todo AddBodyPart() -> call method when snek eats snack, add body prefab to _snakeBody
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.otherCollider.tag == "Fruit")
+        {
+            AddBodyPart();
+        }
+
+        else
+        {
+            //fix this later
+            Debug.Log("U fuckin dead bro lmfao");
+        }
+    }
 }
