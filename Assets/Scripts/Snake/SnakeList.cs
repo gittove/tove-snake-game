@@ -31,24 +31,15 @@ public class SnakeList<T>
             nodePosition = item.transform.position;
         }
     }
-    // change dis lator:)
-    public void Add(GameObject item)
+
+    public void CreateBody(GameObject headItem, GameObject tailItem)
     {
-        SnakeNode tailNode = _tail;
-        SnakeNode node = new SnakeNode(item, null, _count);
+        _head = new SnakeNode(headItem, null, _count);
+        _count++;
 
-        if (_count == 0)
-        {
-            _head = node;
-            _tail = node;
-        }
-
-        else
-        {
-            _tail.nextNode = node;
-            _tail = node;
-        }
-
+        _tail = _head;
+        _tail.nextNode = new SnakeNode(tailItem, null, _count);
+        _tail = _tail.nextNode;
         _count++;
     }
 
@@ -57,9 +48,9 @@ public class SnakeList<T>
         SnakeNode insertIndex = _head.nextNode;
         SnakeNode newNode;
 
-        newNode = new SnakeNode(item, null, insertIndex.index);
+        newNode = new SnakeNode(item, _head.nextNode, insertIndex.index);
         _head.nextNode = newNode;
-        IncreaseIndex(insertIndex);
+        IncreaseIndex(_head.nextNode.nextNode);
         _count++;
     }
 

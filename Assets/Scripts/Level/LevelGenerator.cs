@@ -5,8 +5,8 @@ using System;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public static int gridWidth;
-    public static int gridHeight;
+    [NonSerialized] public static int gridWidth;
+    [NonSerialized] public static int gridHeight;
     [NonSerialized] public static GameObject[,] gridSpaces;
 
     private Vector2 topRightCameraCorner = new Vector2(1, 1);

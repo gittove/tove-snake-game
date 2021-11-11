@@ -19,9 +19,8 @@ public class SnakeBody : MonoBehaviour
     void CreateSnake()
     {
         _snakeBody = new SnakeList<GameObject>();
-        _snakeBody.Add(this.gameObject);
         _tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
-        _snakeBody.Add(_tail);
+        _snakeBody.CreateBody(this.gameObject, _tail);
     }
 
     void AddBodyPart()
