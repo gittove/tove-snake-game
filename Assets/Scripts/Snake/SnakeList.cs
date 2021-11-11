@@ -72,15 +72,17 @@ public class SnakeList<T>
         }
     }
 
-    public void MoveNodes(Vector3 headTransform)
+    public void MoveNodes(Transform headTransform)
     {
-        _head.nodeItem.transform.position = headTransform;
+        _head.nodeItem.transform.position = headTransform.position;
+        _head.nodeItem.transform.rotation = headTransform.rotation;
         SnakeNode currentNode = _head.nextNode;
         SnakeNode previousNode = _head;
 
         while (currentNode != null)
         {
             currentNode.nodeItem.transform.position = previousNode.nodeItem.transform.position;
+            currentNode.nodeItem.transform.rotation = previousNode.nodeItem.transform.rotation;
             previousNode = currentNode;
             currentNode = currentNode.nextNode;
         }
