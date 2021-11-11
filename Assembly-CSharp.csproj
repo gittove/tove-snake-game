@@ -54,7 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Snake\SnakeBody.cs" />
-    <Compile Include="Assets\Scripts\Level\Grid.cs" />
     <Compile Include="Assets\Scripts\Level\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeList.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeMovement.cs" />
