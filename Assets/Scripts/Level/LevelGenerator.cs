@@ -5,21 +5,21 @@ using System;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public int width;
-    public int height;
     public static int gridWidth;
     public static int gridHeight;
     [NonSerialized] public static GameObject[,] gridSpaces;
 
-    private Grid _grid;
+    private Vector2 topRightCameraCorner = new Vector2(1, 1);
+    private Vector2 edgeVector;
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
 
     private void Awake()
     {
-        _grid = new Grid(width, height);
-        gridWidth = _grid.GetWidth(_grid);
-        gridHeight = _grid.GetHeight(_grid);
+        edgeVector = Camera.main.ViewportToWorldPoint(topRightCameraCorner);
+        gridWidth = (int)edgeVector.x * 2;
+        gridHeight = (int)edgeVector.y * 2;
+
         gridSpaces = new GameObject[gridWidth, gridHeight];
     }
 
@@ -34,7 +34,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
+                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x - 0.5f, y - 0.5f, 0f), Quaternion.identity, _tilesTransform);
                 tileGo.name = $"Tile_({x}, {y})";
                 gridSpaces[x, y] = tileGo;
             }

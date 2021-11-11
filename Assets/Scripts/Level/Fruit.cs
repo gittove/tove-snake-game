@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
-    private int _gridWidth;
-    private int _gridHeight;
+    private float _gridWidth;
+    private float _gridHeight;
 
     private void Start()
     {
@@ -22,8 +22,8 @@ public class Fruit : MonoBehaviour
         _gridWidth = LevelGenerator.gridWidth;
         _gridHeight = LevelGenerator.gridHeight;
 
-        int randomX = Random.Range(0, _gridWidth);
-        int randomY = Random.Range(0, _gridHeight);
+        int randomX = Random.Range(0, (int)_gridWidth);
+        int randomY = Random.Range(0, (int)_gridHeight);
 
         transform.position = new Vector3(randomX, randomY, 0);
     }

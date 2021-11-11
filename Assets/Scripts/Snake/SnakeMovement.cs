@@ -8,6 +8,7 @@ public class SnakeMovement : MonoBehaviour
     [SerializeField] private float moveQueue;
     private float moveTimer;
     private float _repeatRate = 5f;
+    private Vector3 startPosition = new Vector3(0.5f, 0.5f);
     private Vector3 _currentPosition;
     private Vector3Int _currentDirection;
     private Vector3Int _currentRotation;
@@ -18,6 +19,7 @@ public class SnakeMovement : MonoBehaviour
 
     void Start()
     {
+        transform.position = startPosition;
         snakeBody = GetComponent<SnakeBody>();
         moveTimer = 0f;
 

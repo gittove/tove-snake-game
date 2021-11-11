@@ -14,7 +14,7 @@ public class Grid
         this._height = height;
 
         //this makes no sense, help
-        this._gridArr = new Vector3[width,height];
+        this._gridArr = new Vector3[width, height];
     }
 
     public int GetWidth(Grid grid)
