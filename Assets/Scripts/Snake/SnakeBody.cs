@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SnakeBody : MonoBehaviour
 {
-    public SnakeList<GameObject> _snakeBody;
+    public SnakeList<GameObject> _snakeList;
     [SerializeField] private GameObject _bodyPrefab1;
     [SerializeField] private GameObject _bodyPrefab2;
     [SerializeField] private GameObject _tailPrefab;
@@ -18,15 +18,16 @@ public class SnakeBody : MonoBehaviour
 
     void CreateSnake()
     {
-        _snakeBody = new SnakeList<GameObject>();
+        _snakeList = new SnakeList<GameObject>();
         _tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
-        _snakeBody.CreateBody(this.gameObject, _tail);
+        _snakeList.CreateBody(this.gameObject, _tail);
     }
-
+    
     void AddBodyPart()
     {
-        _body = Instantiate(_bodyPrefab1, this.transform.position, Quaternion.identity);
-        _snakeBody.InsertBodyPart(_body);
+        Transform tailTransform = _snakeList.GetTailTransform;
+        _body = Instantiate(_bodyPrefab1, tailTransform.position, tailTransform.rotation);
+        _snakeList.Add(_body);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

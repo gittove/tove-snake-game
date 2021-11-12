@@ -21,6 +21,7 @@ public class SnakeList<T>
         public GameObject nodeItem;
         public SnakeNode nextNode;
         public int index = -1;
+        public Sprite nodeSprite;
         public Vector3 nodePosition;
 
         public SnakeNode(GameObject item, SnakeNode node, int i)
@@ -28,9 +29,14 @@ public class SnakeList<T>
             nodeItem = item;
             nextNode = node;
             index = i;
-            nodePosition = item.transform.position;
+            nodeSprite = nodeItem.GetComponent<Sprite>();
+            nodePosition = nodeItem.transform.position;
         }
     }
+
+    public Transform GetTailTransform => _tail.nodeItem.transform;
+
+    public int Count { get => _count; }
 
     public void CreateBody(GameObject headItem, GameObject tailItem)
     {
@@ -43,18 +49,31 @@ public class SnakeList<T>
         _count++;
     }
 
-    public void InsertBodyPart(GameObject item)
+    public void Insert(GameObject item, int index)
     {
-        SnakeNode insertIndex = _head.nextNode;
-        SnakeNode newNode;
+        SnakeNode currentNode = _head;
+        SnakeNode previousNode = _head;
 
-        newNode = new SnakeNode(item, _head.nextNode, insertIndex.index);
-        _head.nextNode = newNode;
-        IncreaseIndex(_head.nextNode.nextNode);
+        for (int i = 0; i < index; i++)
+        {
+            previousNode = currentNode;
+            currentNode = currentNode.nextNode;
+        }
+
+        SnakeNode newNode = new SnakeNode(item, currentNode, index);
+        previousNode.nextNode = newNode;
+        UpdateIndeces(newNode);
         _count++;
     }
 
-    private void IncreaseIndex(SnakeNode node)
+    public void Add(GameObject item)
+    {
+        _tail.nextNode = new SnakeNode(item, null, _count);
+        _tail = _tail.nextNode;
+        UpdateIndeces(_tail);
+    }
+
+    private void UpdateIndeces(SnakeNode node)
     {
         while (node != null)
         {
@@ -63,20 +82,24 @@ public class SnakeList<T>
         }
     }
 
-    public void MoveNodes(Transform headTransform)
+    private SnakeNode GetTail()
     {
-        _head.nodeItem.transform.position = headTransform.position;
-        _head.nodeItem.transform.rotation = headTransform.rotation;
-        SnakeNode currentNode = _head.nextNode;
-        SnakeNode previousNode = _head;
-
-        while (currentNode != null)
+        SnakeNode currentNode = _head;
+        while(currentNode.nextNode.nextNode != null)
         {
-            currentNode.nodeItem.transform.position = previousNode.nodeItem.transform.position;
-            currentNode.nodeItem.transform.rotation = previousNode.nodeItem.transform.rotation;
-            previousNode = currentNode;
             currentNode = currentNode.nextNode;
         }
+        _tail = currentNode;
+        _tail.nextNode = null;
+        return _tail;
+    }
+
+    public void MoveNodes(Transform previousHeadTransform)
+    {
+        _tail.nodeItem.transform.position = previousHeadTransform.position;
+        _tail.nodeItem.transform.rotation = previousHeadTransform.rotation;
+        Insert(_tail.nodeItem, 1);
+        _tail = GetTail();
     }
 
     public void Clear()
@@ -86,7 +109,6 @@ public class SnakeList<T>
         _tail = null;
     }
 
-    //do we need this?
     public GameObject this[int index] 
     {
         get

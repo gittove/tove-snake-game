@@ -41,8 +41,9 @@ public class SnakeMovement : MonoBehaviour
 
     private void MoveSnake()
     {
-        snakeBody._snakeBody.MoveNodes(transform);
+        snakeBody._snakeList.MoveNodes(transform);
         transform.position += _currentDirection;
+    //    snakeBody._snakeList.MoveSnake(this.gameObject);
 
         if (LevelGenerator.gridSpaces[(int)_currentPosition.x, (int)_currentPosition.y] == null)
         {
