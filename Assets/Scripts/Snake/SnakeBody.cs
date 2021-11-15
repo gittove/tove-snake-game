@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeBody : MonoBehaviour
@@ -18,7 +16,7 @@ public class SnakeBody : MonoBehaviour
 
     void CreateSnake()
     {
-        _snakeList = new SnakeList<GameObject>();
+        _snakeList = new SnakeList<GameObject>(_bodyPrefab1, _tailPrefab);
         _tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
         _snakeList.CreateBody(this.gameObject, _tail);
     }

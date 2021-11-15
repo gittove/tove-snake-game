@@ -1,16 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeList<T>
 {
+    private Sprite _bodypartSprite;
+    private Sprite _tailSprite;
     private SnakeNode _head;
     private SnakeNode _tail;
     private int _count;
 
-    public SnakeList()
+    public SnakeList(GameObject bodypartPrefab, GameObject tailPrefab)
     {
+        _bodypartSprite = bodypartPrefab.GetComponent<SpriteRenderer>().sprite;
+        _tailSprite = tailPrefab.GetComponent<SpriteRenderer>().sprite;
         _head = null;
         _tail = null;
         _count = 0;
@@ -21,7 +23,6 @@ public class SnakeList<T>
         public GameObject nodeItem;
         public SnakeNode nextNode;
         public int index = -1;
-        public Sprite nodeSprite;
         public Vector3 nodePosition;
 
         public SnakeNode(GameObject item, SnakeNode node, int i)
@@ -29,7 +30,6 @@ public class SnakeList<T>
             nodeItem = item;
             nextNode = node;
             index = i;
-            nodeSprite = nodeItem.GetComponent<Sprite>();
             nodePosition = nodeItem.transform.position;
         }
     }
@@ -96,10 +96,18 @@ public class SnakeList<T>
 
     public void MoveNodes(Transform previousHeadTransform)
     {
+        SpriteRenderer newTailRenderer;
+        SpriteRenderer tailRenderer = _tail.nodeItem.GetComponent<SpriteRenderer>();
+
         _tail.nodeItem.transform.position = previousHeadTransform.position;
         _tail.nodeItem.transform.rotation = previousHeadTransform.rotation;
+        tailRenderer.sprite = _bodypartSprite;
+
         Insert(_tail.nodeItem, 1);
         _tail = GetTail();
+
+        newTailRenderer = _tail.nodeItem.GetComponent<SpriteRenderer>();
+        newTailRenderer.sprite = _tailSprite;
     }
 
     public void Clear()
