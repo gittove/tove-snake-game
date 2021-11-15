@@ -5,7 +5,7 @@ public class GridSizeToCamera : MonoBehaviour
     int gridWidth;
     int gridHeight;
     int gridDepth;
-    private int spriteOffset = 2;
+    private int spriteOffset = 1;
     private Vector3 topRightCameraCorner;
     private Vector3 edgeVector;
     [SerializeField] private GameObject mainCamera;

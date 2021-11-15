@@ -10,7 +10,6 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
-    [NonSerialized, Range(0f, 1f)] private float offset = 0.5f;
 
     private void Awake()
     {
@@ -27,7 +26,7 @@ public class LevelGenerator : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x - offset, y - offset, 0f), Quaternion.identity, _tilesTransform);
+                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
                 tileGo.name = $"Tile_({x}, {y})";
                 gridSpaces[x, y] = tileGo;
             }

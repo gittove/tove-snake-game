@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
@@ -8,7 +9,6 @@ public class SnakeMovement : MonoBehaviour
     private float _nextPositionY;
     private float _moveQueue;
     private float _moveTimer;
-    private Vector3 _startPosition = new Vector3(0.5f, 0.5f, 0f);
     private Vector3Int _currentDirection;
     private Vector3Int _currentRotation;
     private SnakeBody _snakeBody;
@@ -20,7 +20,7 @@ public class SnakeMovement : MonoBehaviour
     {
         _gridWidth = LevelGenerator.gridWidth;
         _gridHeight = LevelGenerator.gridHeight;
-        transform.position = _startPosition;
+        transform.position = new Vector3(0f, 0f, 0f);
         _snakeBody = GetComponent<SnakeBody>();
         _moveTimer = 0f;
         _moveQueue = 0.5f;
@@ -43,7 +43,7 @@ public class SnakeMovement : MonoBehaviour
 
     private void MoveSnake()
     {
-        _snakeBody._snakeList.MoveNodes(transform);
+        _snakeBody.snakeList.MoveNodes(transform);
         
         _nextPositionX = WrapPosition(transform.position.x, _currentDirection.x, _gridWidth);
         _nextPositionY = WrapPosition(transform.position.y, _currentDirection.y, _gridHeight);

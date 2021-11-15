@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SnakeBody : MonoBehaviour
 {
-    public SnakeList<GameObject> _snakeList;
+    public GameObject tail;
+    public SnakeList<GameObject> snakeList;
+
     [SerializeField] private GameObject _bodyPrefab1;
-    [SerializeField] private GameObject _bodyPrefab2;
     [SerializeField] private GameObject _tailPrefab;
-    private GameObject _tail;
     private GameObject _body;
 
     private void Awake()
@@ -16,16 +16,16 @@ public class SnakeBody : MonoBehaviour
 
     void CreateSnake()
     {
-        _snakeList = new SnakeList<GameObject>(_bodyPrefab1, _tailPrefab);
-        _tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
-        _snakeList.CreateBody(this.gameObject, _tail);
+        snakeList = new SnakeList<GameObject>(_bodyPrefab1, _tailPrefab);
+        tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
+        snakeList.CreateBody(this.gameObject, tail);
     }
     
     void AddBodyPart()
     {
-        Transform tailTransform = _snakeList.GetTailTransform;
+        Transform tailTransform = snakeList.GetTailTransform;
         _body = Instantiate(_bodyPrefab1, tailTransform.position, tailTransform.rotation);
-        _snakeList.Add(_body);
+        snakeList.Add(_body);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

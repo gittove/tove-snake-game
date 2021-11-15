@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeList<T>
@@ -8,6 +9,7 @@ public class SnakeList<T>
     private SnakeNode _head;
     private SnakeNode _tail;
     private int _count;
+    private HashSet<Vector3> bodyPositions = new HashSet<Vector3>();
 
     public SnakeList(GameObject bodypartPrefab, GameObject tailPrefab)
     {
