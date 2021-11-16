@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
     private bool _gameOver;
-    private SnakeBody _snakeBody;
+    [SerializeField] private SnakeBody _snakeBody;
 
     private void Start()
     {
-        _snakeBody = GetComponent<SnakeBody>();
         _gameOver = false;
     }
 
@@ -19,7 +17,7 @@ public class GameState : MonoBehaviour
 
         if (_gameOver)
         {
-            Debug.Log("u crashed into urself lol how embarrassing");
+            SceneManager.LoadScene(1);
         }
     }
 }

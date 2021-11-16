@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\Snake\SnakeMovement.cs" />
     <Compile Include="Assets\Scripts\UI\Buttons.cs" />
     <Compile Include="Assets\Scripts\Game\GameState.cs" />
+    <Compile Include="Assets\Scripts\Snake\SnakeController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

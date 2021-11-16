@@ -9,12 +9,12 @@ public class SnakeList<T>
     private SnakeNode _head;
     private SnakeNode _tail;
     private int _count;
-    private HashSet<Vector3> bodyPositions = new HashSet<Vector3>();
+    private HashSet<Vector3> _bodyPositions = new HashSet<Vector3>();
 
-    public SnakeList(GameObject bodypartPrefab, GameObject tailPrefab)
+    public SnakeList(Sprite bodyPartSprite, Sprite tailSprite)
     {
-        _bodypartSprite = bodypartPrefab.GetComponent<SpriteRenderer>().sprite;
-        _tailSprite = tailPrefab.GetComponent<SpriteRenderer>().sprite;
+        _bodypartSprite = bodyPartSprite;
+        _tailSprite = tailSprite;
         _head = null;
         _tail = null;
         _count = 0;
@@ -40,8 +40,8 @@ public class SnakeList<T>
 
     public void CreateBody(GameObject headItem, GameObject tailItem)
     {
-        bodyPositions.Add(headItem.transform.position);
-        bodyPositions.Add(tailItem.transform.position);
+        _bodyPositions.Add(headItem.transform.position);
+        _bodyPositions.Add(tailItem.transform.position);
 
         _head = new SnakeNode(headItem, null, _count);
         _count++;
@@ -52,18 +52,18 @@ public class SnakeList<T>
         _count++;
     }
 
-    public void Insert(GameObject item, int index)
+    public void Insert(GameObject newItem, int itemIndex)
     {
         SnakeNode currentNode = _head;
         SnakeNode previousNode = _head;
 
-        for (int i = 0; i < index; i++)
+        for (int i = 0; i < itemIndex; i++)
         {
             previousNode = currentNode;
             currentNode = currentNode.nextNode;
         }
 
-        SnakeNode newNode = new SnakeNode(item, currentNode, index);
+        SnakeNode newNode = new SnakeNode(newItem, currentNode, itemIndex);
         previousNode.nextNode = newNode;
         UpdateIndeces(newNode);
         _count++;
@@ -71,18 +71,20 @@ public class SnakeList<T>
 
     public void Add(GameObject item)
     {
-        bodyPositions.Add(item.transform.position);
+        _bodyPositions.Add(item.transform.position);
         _tail.nextNode = new SnakeNode(item, null, _count);
         _tail = _tail.nextNode;
         UpdateIndeces(_tail);
     }
 
-    private void UpdateIndeces(SnakeNode node)
+    private void UpdateIndeces(SnakeNode startNode)
     {
-        while (node != null)
+        SnakeNode currentNode = startNode;
+
+        while (currentNode != null)
         {
-            node.index++;
-            node = node.nextNode;
+            currentNode.index++;
+            currentNode = currentNode.nextNode;
         }
     }
 
@@ -100,7 +102,7 @@ public class SnakeList<T>
 
     public bool CheckForCollision(Vector3 nextHeadPosition)
     {
-        if(bodyPositions.Contains(nextHeadPosition))
+        if(_bodyPositions.Contains(nextHeadPosition))
         {
             return true;
         }
@@ -113,8 +115,8 @@ public class SnakeList<T>
         SpriteRenderer newTailRenderer;
         SpriteRenderer tailRenderer = _tail.nodeItem.GetComponent<SpriteRenderer>();
 
-        bodyPositions.Remove(_tail.nodePosition);
-        bodyPositions.Add(nextHeadPosition);
+        _bodyPositions.Remove(_tail.nodePosition);
+        _bodyPositions.Add(nextHeadPosition);
 
         _tail.nodeItem.transform.position = previousHeadTransform.position;
         _tail.nodeItem.transform.rotation = previousHeadTransform.rotation;

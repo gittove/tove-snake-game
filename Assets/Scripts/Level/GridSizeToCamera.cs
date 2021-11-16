@@ -18,7 +18,7 @@ public class GridSizeToCamera : MonoBehaviour
 
         gridWidth = (int)(edgeVector.x * 2) + spriteOffset;
         gridHeight = (int)(edgeVector.y * 2) + spriteOffset;
-      //  gridDepth = (int)(edgeVector.z * 2) + spriteOffset;
+        gridDepth = (int)(edgeVector.z * 2) + spriteOffset;
 
         GameObject [,] arr = new GameObject[gridWidth, gridHeight];
         return arr;
