@@ -11,8 +11,11 @@ public class SnakeMovement : MonoBehaviour
     private float _moveTimer;
     private Vector3Int _currentDirection;
     private Vector3Int _currentRotation;
+    private Vector3 _nextPosition;
     private SnakeBody _snakeBody;
+    private GameState _gameState;
 
+    private Vector3[,] directions;
     private Vector3Int[] _directions = new Vector3Int[4] { Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left };
     private Vector3Int[] _rotations = new Vector3Int[4] { new Vector3Int(0, 0, 90), new Vector3Int(0, 0, -90), new Vector3Int(0, 0, 0), new Vector3Int(0, 0, 180) };
 
@@ -20,10 +23,10 @@ public class SnakeMovement : MonoBehaviour
     {
         _gridWidth = LevelGenerator.gridWidth;
         _gridHeight = LevelGenerator.gridHeight;
-        transform.position = new Vector3(0f, 0f, 0f);
         _snakeBody = GetComponent<SnakeBody>();
-        _moveTimer = 0f;
         _moveQueue = 0.5f;
+        _moveTimer = 0f;
+        _gameState = GetComponent<GameState>();
 
         ChangeDirection(2);
     }
@@ -43,13 +46,16 @@ public class SnakeMovement : MonoBehaviour
 
     private void MoveSnake()
     {
-        _snakeBody.snakeList.MoveNodes(transform);
-        
         _nextPositionX = WrapPosition(transform.position.x, _currentDirection.x, _gridWidth);
         _nextPositionY = WrapPosition(transform.position.y, _currentDirection.y, _gridHeight);
+        _nextPosition = new Vector3(_nextPositionX, _nextPositionY, 0f);
 
+        _gameState.CheckForGameOver(_nextPosition);
+
+        _snakeBody.snakeList.MoveNodes(transform, new Vector3(_nextPositionX, _nextPositionY, 0f));
         transform.position = new Vector3(_nextPositionX, _nextPositionY, 0f);
     }
+    
 
     private float WrapPosition(float currentValue, int addValue, int max)
     {
@@ -78,8 +84,6 @@ public class SnakeMovement : MonoBehaviour
 
     private void ChangeDirection(int i)
     {
-        _currentDirection = new Vector3Int(0, 0, 0);
-        _currentRotation = new Vector3Int(0, 0, 0);
         _currentDirection = _directions[i];
         _currentRotation = _rotations[i];
 

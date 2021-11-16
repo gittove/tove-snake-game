@@ -56,10 +56,12 @@
     <Compile Include="Assets\Scripts\Snake\SnakeBody.cs" />
     <Compile Include="Assets\Scripts\Level\Fruit.cs" />
     <Compile Include="Assets\Scripts\Level\LevelGenerator.cs" />
+    <Compile Include="Assets\Scripts\CameraSizeToScreen.cs" />
+    <Compile Include="Assets\Scripts\Level\GridSizeToCamera.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeList.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeMovement.cs" />
-    <Compile Include="Assets\Scripts\Level\GridSizeToCamera.cs" />
-    <Compile Include="Assets\Scripts\CameraSizeToScreen.cs" />
+    <Compile Include="Assets\Scripts\UI\Buttons.cs" />
+    <Compile Include="Assets\Scripts\Game\GameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

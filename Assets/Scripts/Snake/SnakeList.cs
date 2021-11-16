@@ -38,10 +38,11 @@ public class SnakeList<T>
 
     public Transform GetTailTransform => _tail.nodeItem.transform;
 
-    public int Count { get => _count; }
-
     public void CreateBody(GameObject headItem, GameObject tailItem)
     {
+        bodyPositions.Add(headItem.transform.position);
+        bodyPositions.Add(tailItem.transform.position);
+
         _head = new SnakeNode(headItem, null, _count);
         _count++;
 
@@ -70,6 +71,7 @@ public class SnakeList<T>
 
     public void Add(GameObject item)
     {
+        bodyPositions.Add(item.transform.position);
         _tail.nextNode = new SnakeNode(item, null, _count);
         _tail = _tail.nextNode;
         UpdateIndeces(_tail);
@@ -96,10 +98,23 @@ public class SnakeList<T>
         return _tail;
     }
 
-    public void MoveNodes(Transform previousHeadTransform)
+    public bool CheckForCollision(Vector3 nextHeadPosition)
+    {
+        if(bodyPositions.Contains(nextHeadPosition))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void MoveNodes(Transform previousHeadTransform, Vector3 nextHeadPosition)
     {
         SpriteRenderer newTailRenderer;
         SpriteRenderer tailRenderer = _tail.nodeItem.GetComponent<SpriteRenderer>();
+
+        bodyPositions.Remove(_tail.nodePosition);
+        bodyPositions.Add(nextHeadPosition);
 
         _tail.nodeItem.transform.position = previousHeadTransform.position;
         _tail.nodeItem.transform.rotation = previousHeadTransform.rotation;

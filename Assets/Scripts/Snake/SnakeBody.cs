@@ -17,7 +17,7 @@ public class SnakeBody : MonoBehaviour
     void CreateSnake()
     {
         snakeList = new SnakeList<GameObject>(_bodyPrefab1, _tailPrefab);
-        tail = Instantiate(_tailPrefab, this.transform.position, Quaternion.identity);
+        tail = Instantiate(_tailPrefab, new Vector3(-1, 0, 0), Quaternion.identity);
         snakeList.CreateBody(this.gameObject, tail);
     }
     
@@ -33,12 +33,6 @@ public class SnakeBody : MonoBehaviour
         if (collider.CompareTag("Fruit"))
         {
             AddBodyPart();
-        }
-
-        else
-        {
-            //fix this later
-            Debug.Log("U fuckin dead bro lmfao");
         }
     }
 }
