@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
-    private float _gridWidth;
-    private float _gridHeight;
+    private Vector2 _gridSize;
+    [SerializeField] private GameObject _snakeHead;
+    private SnakeController _snakeController;
+
 
     private void Start()
     {
+        _snakeController = _snakeHead.GetComponent<SnakeController>();
         RandomizePosition();
     }
 
@@ -17,12 +20,12 @@ public class Fruit : MonoBehaviour
 
     private void RandomizePosition()
     {
-        _gridWidth = LevelGenerator.gridWidth;
-        _gridHeight = LevelGenerator.gridHeight;
+        _gridSize = LevelGenerator.gridSize;
 
-        int randomX = Random.Range(0, (int)_gridWidth);
-        int randomY = Random.Range(0, (int)_gridHeight);
+        int randomX = Random.Range(0, (int)_gridSize.x);
+        int randomY = Random.Range(0, (int)_gridSize.y);
 
         transform.position = new Vector3(randomX, randomY, 0);
+        _snakeController.UpdateFruitPosition(transform.position);
     }
 }

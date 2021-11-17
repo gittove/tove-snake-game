@@ -54,15 +54,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Snake\SnakeBody.cs" />
+    <Compile Include="Assets\Scripts\UI\Buttons.cs" />
     <Compile Include="Assets\Scripts\Level\Fruit.cs" />
     <Compile Include="Assets\Scripts\Level\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\CameraSizeToScreen.cs" />
+    <Compile Include="Assets\Scripts\Snake\SnakeController.cs" />
     <Compile Include="Assets\Scripts\Level\GridSizeToCamera.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeList.cs" />
     <Compile Include="Assets\Scripts\Snake\SnakeMovement.cs" />
-    <Compile Include="Assets\Scripts\UI\Buttons.cs" />
     <Compile Include="Assets\Scripts\Game\GameState.cs" />
-    <Compile Include="Assets\Scripts\Snake\SnakeController.cs" />
+    <Compile Include="Assets\Scripts\Snake\Pathfinder.cs" />
+    <Compile Include="Assets\Scripts\Level\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
