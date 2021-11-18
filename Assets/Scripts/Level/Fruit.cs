@@ -6,10 +6,11 @@ public class Fruit : MonoBehaviour
     [SerializeField] private GameObject _snakeHead;
     private SnakeController _snakeController;
 
-
+    
     private void Start()
     {
         _snakeController = _snakeHead.GetComponent<SnakeController>();
+        _gridSize = LevelGenerator.gridSize;
         RandomizePosition();
     }
 
@@ -20,8 +21,6 @@ public class Fruit : MonoBehaviour
 
     private void RandomizePosition()
     {
-        _gridSize = LevelGenerator.gridSize;
-
         int randomX = Random.Range(0, (int)_gridSize.x);
         int randomY = Random.Range(0, (int)_gridSize.y);
 

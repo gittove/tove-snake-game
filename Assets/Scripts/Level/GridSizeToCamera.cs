@@ -2,24 +2,30 @@ using UnityEngine;
 
 public class GridSizeToCamera : MonoBehaviour
 {
-    int gridWidth;
-    int gridHeight;
-    private int offsetX = 1;
-    private int offsetY = 2;
-    private Vector3 topRightCameraCorner;
-    private Vector3 edgeVector;
-    [SerializeField] private GameObject mainCamera;
+    private int _gridWidth;
+    private int _gridHeight;
+    private int _offsetX;
+    private int _offsetY;
+    private Vector3 _topRightCameraCorner;
+    private Vector3 _edgeVector;
+    [SerializeField] private GameObject _mainCamera;
+
+    private void Start()
+    {
+        _offsetX = 1;
+        _offsetY = 2;
+    }
 
     public Tile[,] SetGridSize()
     {
-        mainCamera.GetComponent<CameraSizeToScreen>().SetCameraSize();
-        topRightCameraCorner = new Vector3(1, 1, Camera.main.nearClipPlane);
-        edgeVector = Camera.main.ViewportToWorldPoint(topRightCameraCorner);
+        _mainCamera.GetComponent<CameraSizeToScreen>().SetCameraSize();
+        _topRightCameraCorner = new Vector3(1, 1, Camera.main.nearClipPlane);
+        _edgeVector = Camera.main.ViewportToWorldPoint(_topRightCameraCorner);
 
-        gridWidth = (int)(edgeVector.x * 2) + offsetX;
-        gridHeight = (int)(edgeVector.y * 2) + offsetY;
+        _gridWidth = Mathf.RoundToInt(_edgeVector.x * 2) + _offsetX;
+        _gridHeight = Mathf.RoundToInt(_edgeVector.y * 2) + _offsetY;
 
-        Tile[,] arr = new Tile[gridWidth, gridHeight];
+        Tile[,] arr = new Tile[_gridWidth, _gridHeight];
         return arr;
     }
 }

@@ -9,7 +9,7 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
-    private float tileRadius;
+   // private float tileRadius;
     private Vector2Int[] neighbourDirections;
 
     private void Awake()
@@ -45,33 +45,27 @@ public class LevelGenerator : MonoBehaviour
             x = tile.gridX + neighbourDirections[i].x;
             y = tile.gridY + neighbourDirections[i].y;
             
-            if (x < 0 || y < 0 || y > gridSpaces.Length || x > gridSpaces.Length)
-            {
-                x = Wrap(x, 0, (int)gridSize.x);
-                y = Wrap(y, 0, (int)gridSize.y);
-                // wrap?
-                neighbours.Add(gridSpaces[x, y]);
-                continue;
-            } 
+            x = Wrap(x, 0, Mathf.RoundToInt(gridSize.x));
+            y = Wrap(y, 0, Mathf.RoundToInt(gridSize.y));
 
             neighbours.Add(gridSpaces[x, y]);
         }
 
         return neighbours;
     }
-
+    /*
     public Vector3 WrapTile(Vector3 nextPos)
     {
-        nextPos.x = Wrap((int)nextPos.x, 0, (int)gridSize.x);
-        nextPos.y = Wrap((int)nextPos.y, 0, (int)gridSize.y);
+        nextPos.x = Wrap(Mathf.RoundToInt(nextPos.x), 0, Mathf.RoundToInt(gridSize.x));
+        nextPos.y = Wrap(Mathf.RoundToInt(nextPos.y), 0, Mathf.RoundToInt(gridSize.y));
 
         return nextPos;
     }
-
-    private int Wrap(int i, int inclusiveMin, int exclusiveMax)
+    */
+    private int Wrap(int pos, int minValue, int maxValue)
     {
-        int distance = exclusiveMax - inclusiveMin;
-        int rest = ((i + distance) % distance) + inclusiveMin;
+        int distance = maxValue - minValue;
+        int rest = ((pos + distance) % distance) + minValue;
         return rest;
     }
 }

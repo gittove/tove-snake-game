@@ -7,16 +7,21 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private GameObject _levelManager;
     private LevelGenerator _levelGenerator;
 
+    private void Awake()
+    {
+        _levelGenerator = _levelManager.GetComponent<LevelGenerator>();
+    }
+
     private void Start()
     {
-        _grid = LevelGenerator.gridSpaces;
-        _levelGenerator = _levelManager.GetComponent<LevelGenerator>();
+        
     }
 
     public List<Tile> FindPath(Vector3 startPos, Vector3 targetPos)
     {
-        Tile startTile = _grid[(int)startPos.x, (int)startPos.y];
-        Tile targetTile = _grid[(int)targetPos.x, (int)targetPos.y];
+        _grid = LevelGenerator.gridSpaces;
+        Tile startTile = _grid[Mathf.RoundToInt(startPos.x), Mathf.RoundToInt(startPos.y)];
+        Tile targetTile = _grid[Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y)];
         List<Tile> finalPath = new List<Tile>();
         List<Tile> openSet = new List<Tile>(); // might change to heap later ngl
         HashSet<Tile> closedSet = new HashSet<Tile>();
