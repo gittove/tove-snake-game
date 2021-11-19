@@ -36,6 +36,8 @@ public class SnakeList<T>
         }
     }
 
+    public HashSet<Vector3> GetBodyPositions => _bodyPositions;
+
     public Transform GetTailTransform => _tail.nodeItem.transform;
 
     public void CreateBody(GameObject headItem, GameObject tailItem)

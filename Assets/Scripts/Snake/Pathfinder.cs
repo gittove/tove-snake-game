@@ -3,29 +3,27 @@ using UnityEngine;
 
 public class Pathfinder : MonoBehaviour
 {
-    private Tile[,] _grid;
     [SerializeField] private GameObject _levelManager;
     private LevelGenerator _levelGenerator;
+    private SnakeBody _snakeBody;
 
     private void Awake()
     {
         _levelGenerator = _levelManager.GetComponent<LevelGenerator>();
-    }
-
-    private void Start()
-    {
-        
+        _snakeBody = GetComponent<SnakeBody>();
     }
 
     public List<Tile> FindPath(Vector3 startPos, Vector3 targetPos)
     {
-        _grid = LevelGenerator.gridSpaces;
+        Tile[,] tempClone = LevelGenerator.PFgridSpaces;
+        Tile[,] _grid = tempClone;
         Tile startTile = _grid[Mathf.RoundToInt(startPos.x), Mathf.RoundToInt(startPos.y)];
         Tile targetTile = _grid[Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y)];
         List<Tile> finalPath = new List<Tile>();
-        List<Tile> openSet = new List<Tile>(); // might change to heap later ngl
+        List<Tile> openSet = new List<Tile>();
         HashSet<Tile> closedSet = new HashSet<Tile>();
-
+        HashSet<Vector3> bodyTiles = _snakeBody.snakeList.GetBodyPositions;
+        _grid = UpdateWalkables(_grid, bodyTiles);
         openSet.Add(startTile);
 
         while(openSet.Count > 0)
@@ -39,10 +37,10 @@ public class Pathfinder : MonoBehaviour
                 }
             }
 
-                openSet.Remove(currentTile);
-                closedSet.Add(currentTile);
+            openSet.Remove(currentTile);
+            closedSet.Add(currentTile);
 
-                if (currentTile == targetTile)
+                if (currentTile.position == targetTile.position)
                 {
                     finalPath = RetracePath(startTile, targetTile);
                     return finalPath;
@@ -50,13 +48,15 @@ public class Pathfinder : MonoBehaviour
 
                 foreach(Tile neighbourTile in _levelGenerator.GetNeighbours(currentTile))
                 {
-                    if (closedSet.Contains(neighbourTile))
+                
+                    if (!neighbourTile.walkable || closedSet.Contains(neighbourTile))
                     {
                         continue;
                     }
 
                     int newMovementCostToNeighbour = currentTile.gCost + GetDistance(currentTile, neighbourTile);
-                    if (newMovementCostToNeighbour < neighbourTile.gCost || !openSet.Contains(neighbourTile))
+                    
+                    if (newMovementCostToNeighbour <= neighbourTile.gCost || !openSet.Contains(neighbourTile))
                     {
                         neighbourTile.gCost = newMovementCostToNeighbour;
                         neighbourTile.hCost = GetDistance(neighbourTile, targetTile);
@@ -97,5 +97,20 @@ public class Pathfinder : MonoBehaviour
             return 10*distY + 10 * (distX - distY);
         }
         return 10*distX + 10 * (distY - distX);
+    }
+
+    private Tile[,] UpdateWalkables(Tile [,] grid, HashSet<Vector3> bodyPositions)
+    {
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (bodyPositions.Contains(grid[x, y].position))
+                {
+                    grid[x, y].walkable = false;
+                }
+            }
+        }
+        return grid;
     }
 }

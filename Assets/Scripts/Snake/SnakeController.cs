@@ -18,7 +18,7 @@ public class SnakeController : MonoBehaviour
     private void Awake()
     {
         index = 0;
-        _moveQueue = 0.5f;
+        _moveQueue = 0.1f;
         _moveTimer = 0f;
         _snakeMovement = GetComponent<SnakeMovement>();
         _pathfinder = GetComponent<Pathfinder>();
@@ -32,7 +32,9 @@ public class SnakeController : MonoBehaviour
     public void UpdateFruitPosition(Vector3 newPosition)
     {
         _fruitPosition = newPosition;
+        Debug.Log("New fruit position:" + _fruitPosition);
         _currentPath = _pathfinder.FindPath(transform.position, _fruitPosition);
+
         index = 0;
     }
 
@@ -44,39 +46,38 @@ public class SnakeController : MonoBehaviour
 
         if (_moveTimer >= _moveQueue)
         {
-            // _snakeMovement.MoveSnake(_currentDirection);
+           // _snakeMovement.MoveSnake(_currentDirection);
             _snakeMovement.MoveSnake(_currentPath[index].position);
             _moveTimer = 0f;
             index++;
         }
     }
     /*
-    private void Inputs()
+private void Inputs()
+{
+    if (Input.GetKeyDown(KeyCode.W))
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            ChangeDirection(0);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            ChangeDirection(1);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            ChangeDirection(2);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ChangeDirection(3);
-        }
+        ChangeDirection(0);
     }
-
-    private void ChangeDirection(int i)
+    if (Input.GetKeyDown(KeyCode.S))
     {
-        _currentDirection = _directions[i];
-        _currentRotation = _rotations[i];
-
-        transform.rotation = Quaternion.Euler(_currentRotation);
+        ChangeDirection(1);
     }
-    */
+    if (Input.GetKeyDown(KeyCode.D))
+    {
+        ChangeDirection(2);
+    }
+    if (Input.GetKeyDown(KeyCode.A))
+    {
+        ChangeDirection(3);
+    }
+}
+
+private void ChangeDirection(int i)
+{
+    _currentDirection = _directions[i];
+    _currentRotation = _rotations[i];
+
+    transform.rotation = Quaternion.Euler(_currentRotation);
+} */
 }

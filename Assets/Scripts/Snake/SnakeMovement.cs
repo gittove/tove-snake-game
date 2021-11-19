@@ -29,7 +29,12 @@ public class SnakeMovement : MonoBehaviour
 
     public void MoveSnake(Vector3 nextPosition)
     {
-        Vector3 direction = nextPosition - transform.position;
+        Debug.Log("nextPosition:" + nextPosition);
+        Debug.Log("Transform position" + transform.position);
+        Quaternion nextRotation;
+        float clampedDirectionX = Mathf.Clamp(nextPosition.x - transform.position.x, -1, 1);
+        float clampedDirectionY = Mathf.Clamp(nextPosition.y - transform.position.y, -1, 1);
+        Vector3 direction = new Vector3(clampedDirectionX, clampedDirectionY, 0);
 
        // _nextPosition = WrapPosition(transform.position+direction);
        // _nextPositionX = WrapPosition(transform.position.x, (int)direction.x, (int)_gridSize.x);
@@ -40,7 +45,11 @@ public class SnakeMovement : MonoBehaviour
 
         _snakeBody.snakeList.MoveNodes(transform, nextPosition);
         transform.position = nextPosition;
-        transform.rotation = Quaternion.Euler(_rotationValues[direction]);
+
+        nextRotation = Quaternion.Euler(_rotationValues[direction]);
+        nextRotation.z = CorrectEuler(nextRotation.z);
+
+        transform.rotation = nextRotation;
     }
 
     public Vector3 WrapPosition(Vector3 nextPos)
@@ -56,6 +65,20 @@ public class SnakeMovement : MonoBehaviour
         int distance = exclusiveMax - inclusiveMin;
         int rest = ((i + distance) % distance) + inclusiveMin;
         return rest;
+    }
+
+    private float CorrectEuler(float rotationValue)
+    {
+        while (rotationValue > 360)
+        {
+            rotationValue = rotationValue - 360;
+        }
+        while (rotationValue < 0)
+        {
+            rotationValue = rotationValue + 360;
+        }
+
+        return rotationValue;
     }
     /*
     private float WrapPosition(float currentValue, int addValue, int max)

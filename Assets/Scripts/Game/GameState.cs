@@ -11,9 +11,9 @@ public class GameState : MonoBehaviour
         _gameOver = false;
     }
 
-    public void CheckForGameOver(Vector3 nextHeadPosition)
+    public void CheckForGameOver(Vector3 tilePosition)
     {
-        _gameOver = _snakeBody.snakeList.CheckForCollision(nextHeadPosition);
+        _gameOver = _snakeBody.snakeList.CheckForCollision(tilePosition);
 
         if (_gameOver)
         {

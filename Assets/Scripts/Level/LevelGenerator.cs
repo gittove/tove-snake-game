@@ -5,20 +5,42 @@ using System.Collections.Generic;
 public class LevelGenerator : MonoBehaviour
 {
     [NonSerialized] public static Vector2 gridSize;
-    [NonSerialized] public static Tile[,] gridSpaces;
+    [NonSerialized] public static Tile[,] PFgridSpaces;
+    [NonSerialized] public static GameObject[,] MAgridSpaces;
 
+    //if in awake; bool = true/false => enable relevant script
+    [SerializeField] private bool _pathfinder;
     [SerializeField] private GameObject _tilePrefab;
     [SerializeField] private Transform _tilesTransform;
-   // private float tileRadius;
     private Vector2Int[] neighbourDirections;
 
     private void Awake()
     {
-        gridSpaces = GetComponent<GridSizeToCamera>().SetGridSize();
-        gridSize = new Vector2(gridSpaces.GetLength(0), gridSpaces.GetLength(1));
+        PFgridSpaces = GetComponent<GridSizeToCamera>().SetGridSize();
+        gridSize = new Vector2(PFgridSpaces.GetLength(0), PFgridSpaces.GetLength(1));
         neighbourDirections = new Vector2Int[4] { new Vector2Int(-1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1), new Vector2Int(1, 0) };
 
-        SetupTiles();
+      //  if (_pathfinder)
+       // {
+            SetupPathfindingTiles();
+       // }
+       // else
+       // {
+       //     SetupTiles();
+       // }
+    }
+
+    private void SetupPathfindingTiles()
+    {
+        for (int x = 0; x < (int)gridSize.x; x++)
+        {
+            for (int y = 0; y < (int)gridSize.y; y++)
+            {
+                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
+                tileGo.name = $"Tile_({x}, {y})";
+                PFgridSpaces[x, y] = new Tile(true, tileGo.transform.position, x, y);
+            }
+        }
     }
 
     private void SetupTiles()
@@ -29,7 +51,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
                 tileGo.name = $"Tile_({x}, {y})";
-                gridSpaces[x, y] = new Tile(tileGo.transform.position, x, y);
+                MAgridSpaces[x, y] = tileGo;
             }
         }
     }
@@ -37,8 +59,8 @@ public class LevelGenerator : MonoBehaviour
     public List<Tile> GetNeighbours(Tile tile)
     {
         List<Tile> neighbours = new List<Tile>();
-        int x;
-        int y;
+        int x = 0;
+        int y = 0;
 
         for (int i = 0; i < neighbourDirections.Length; i++)
         {
@@ -48,20 +70,12 @@ public class LevelGenerator : MonoBehaviour
             x = Wrap(x, 0, Mathf.RoundToInt(gridSize.x));
             y = Wrap(y, 0, Mathf.RoundToInt(gridSize.y));
 
-            neighbours.Add(gridSpaces[x, y]);
+            neighbours.Add(PFgridSpaces[x, y]);
         }
 
         return neighbours;
     }
-    /*
-    public Vector3 WrapTile(Vector3 nextPos)
-    {
-        nextPos.x = Wrap(Mathf.RoundToInt(nextPos.x), 0, Mathf.RoundToInt(gridSize.x));
-        nextPos.y = Wrap(Mathf.RoundToInt(nextPos.y), 0, Mathf.RoundToInt(gridSize.y));
 
-        return nextPos;
-    }
-    */
     private int Wrap(int pos, int minValue, int maxValue)
     {
         int distance = maxValue - minValue;
