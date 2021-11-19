@@ -5,14 +5,12 @@ public class Fruit : MonoBehaviour
 {
     private Vector2 _gridSize;
     [SerializeField] private GameObject _snakeHead;
-    private SnakeController _snakeController;
     private SnakeBody _snakeBody;
     private SnakeList<GameObject> _snakeList;
 
     
     private void Start()
     {
-        _snakeController = _snakeHead.GetComponent<SnakeController>();
         _snakeBody = _snakeHead.GetComponent<SnakeBody>();
         _snakeList = _snakeBody.snakeList;
         _gridSize = LevelGenerator.gridSize;
@@ -36,6 +34,5 @@ public class Fruit : MonoBehaviour
         }
 
         transform.position = new Vector3(randomX, randomY, 0);
-        _snakeController.UpdateFruitPosition(transform.position);
     }
 }

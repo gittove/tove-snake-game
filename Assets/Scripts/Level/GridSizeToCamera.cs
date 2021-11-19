@@ -16,7 +16,7 @@ public class GridSizeToCamera : MonoBehaviour
         _offsetY = 2;
     }
 
-    public Tile[,] SetGridSize()
+    public GameObject[,] SetGridSize()
     {
         _mainCamera.GetComponent<CameraSizeToScreen>().SetCameraSize();
         _topRightCameraCorner = new Vector3(1, 1, Camera.main.nearClipPlane);
@@ -25,7 +25,7 @@ public class GridSizeToCamera : MonoBehaviour
         _gridWidth = Mathf.RoundToInt(_edgeVector.x * 2) + _offsetX;
         _gridHeight = Mathf.RoundToInt(_edgeVector.y * 2) + _offsetY;
 
-        Tile[,] arr = new Tile[_gridWidth, _gridHeight];
+        GameObject[,] arr = new GameObject[_gridWidth, _gridHeight];
         return arr;
     }
 }

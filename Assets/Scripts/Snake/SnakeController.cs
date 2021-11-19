@@ -3,81 +3,70 @@ using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
-    private int index;
     private float _moveQueue;
     private float _moveTimer;
-    private Vector3 _fruitPosition;
- //   private Vector3Int _currentDirection;
-  //  private Vector3Int _currentRotation;
-  //  private Vector3Int[] _directions = new Vector3Int[4] { Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left };
-  //  private Vector3Int[] _rotations = new Vector3Int[4] { new Vector3Int(0, 0, 90), new Vector3Int(0, 0, -90), new Vector3Int(0, 0, 0), new Vector3Int(0, 0, 180) };
+    private Quaternion _nextRotation;
+    private Vector3 _currentDirection;
     private SnakeMovement _snakeMovement;
-    private Pathfinder _pathfinder;
-    private List<Tile> _currentPath;
+    private Dictionary<Vector3, Vector3> _rotationValues;
 
     private void Awake()
     {
-        index = 0;
-        _moveQueue = 0.1f;
+        _moveQueue = 0.2f;
         _moveTimer = 0f;
         _snakeMovement = GetComponent<SnakeMovement>();
-        _pathfinder = GetComponent<Pathfinder>();
     }
 
-  /*  private void Start()
+    private void Start()
     {
-        ChangeDirection(2);
-    } */
 
-    public void UpdateFruitPosition(Vector3 newPosition)
-    {
-        _fruitPosition = newPosition;
-        Debug.Log("New fruit position:" + _fruitPosition);
-        _currentPath = _pathfinder.FindPath(transform.position, _fruitPosition);
+        _rotationValues = new Dictionary<Vector3, Vector3>();
+        _rotationValues.Add(new Vector3(0, 1, 0), new Vector3(0, 0, 90));
+        _rotationValues.Add(new Vector3(0, -1, 0), new Vector3(0, 0, -90));
+        _rotationValues.Add(new Vector3(1, 0, 0), new Vector3(0, 0, 0));
+        _rotationValues.Add(new Vector3(-1, 0, 0), new Vector3(0, 0, 180));
 
-        index = 0;
+        ChangeDirection(new Vector3(1, 0, 0));
     }
 
     private void Update()
     {
-      //  Inputs();
+        Inputs();
 
         _moveTimer += Time.deltaTime;
 
         if (_moveTimer >= _moveQueue)
         {
-           // _snakeMovement.MoveSnake(_currentDirection);
-            _snakeMovement.MoveSnake(_currentPath[index].position);
+            _snakeMovement.MoveSnake(_currentDirection);
             _moveTimer = 0f;
-            index++;
         }
     }
-    /*
-private void Inputs()
-{
-    if (Input.GetKeyDown(KeyCode.W))
-    {
-        ChangeDirection(0);
-    }
-    if (Input.GetKeyDown(KeyCode.S))
-    {
-        ChangeDirection(1);
-    }
-    if (Input.GetKeyDown(KeyCode.D))
-    {
-        ChangeDirection(2);
-    }
-    if (Input.GetKeyDown(KeyCode.A))
-    {
-        ChangeDirection(3);
-    }
-}
 
-private void ChangeDirection(int i)
-{
-    _currentDirection = _directions[i];
-    _currentRotation = _rotations[i];
+    private void Inputs()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            ChangeDirection(new Vector3(0, 1, 0));
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ChangeDirection(new Vector3(0, -1, 0));
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            ChangeDirection(new Vector3(1, 0, 0));
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ChangeDirection(new Vector3(-1, 0, 0));
+        }
+    }
 
-    transform.rotation = Quaternion.Euler(_currentRotation);
-} */
+    private void ChangeDirection(Vector3 direction)
+    {
+        _currentDirection = direction;
+        _nextRotation = Quaternion.Euler(_rotationValues[direction]);
+
+        transform.rotation = _nextRotation;
+    }
 }
