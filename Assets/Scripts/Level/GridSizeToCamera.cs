@@ -16,16 +16,16 @@ public class GridSizeToCamera : MonoBehaviour
         _offsetY = 2;
     }
 
-    public GameObject[,] SetGridSize()
+    public Vector2[,] SetGridSize()
     {
         _mainCamera.GetComponent<CameraSizeToScreen>().SetCameraSize();
-        _topRightCameraCorner = new Vector3(1, 1, Camera.main.nearClipPlane);
+        _topRightCameraCorner = new Vector3(1f, 1f, Camera.main.nearClipPlane);
         _edgeVector = Camera.main.ViewportToWorldPoint(_topRightCameraCorner);
 
         _gridWidth = Mathf.RoundToInt(_edgeVector.x * 2) + _offsetX;
         _gridHeight = Mathf.RoundToInt(_edgeVector.y * 2) + _offsetY;
 
-        GameObject[,] arr = new GameObject[_gridWidth, _gridHeight];
+        Vector2 [,] arr = new Vector2[_gridWidth, _gridHeight];
         return arr;
     }
 }

@@ -3,9 +3,12 @@ using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
 {
-    private float nextPositionX;
-    private float nextPositionY;
+    private int _gridIndexX;
+    private int _gridIndexY;
+    private float _nextPositionX;
+    private float _nextPositionY;
     private Vector2 _gridSize;
+    private Vector2 _nextPosition;
     [SerializeField] private GameObject _levelManager;
     private SnakeBody _snakeBody;
     private GameState _gameState;
@@ -18,39 +21,29 @@ public class SnakeMovement : MonoBehaviour
 
     private void Start()
     {
+        _gridIndexX = 0;
+        _gridIndexY = 0;
         _gridSize = LevelGenerator.gridSize;
-        transform.position = Vector3.zero;
+        transform.position = LevelGenerator.gridSpaces[_gridIndexX, _gridIndexY];
     }
 
-    public void MoveSnake(Vector3 nextPosition)
+    public void MoveSnake(Vector2 currentDirection)
     {
-        nextPositionX = WrapPosition(transform.position.x, Mathf.RoundToInt(nextPosition.x), Mathf.RoundToInt(_gridSize.x));
-        nextPositionY = WrapPosition(transform.position.y, Mathf.RoundToInt(nextPosition.y), Mathf.RoundToInt(_gridSize.y));
-        nextPosition = new Vector3(nextPositionX, nextPositionY, 0f);
+        _gridIndexX += Mathf.RoundToInt(currentDirection.x);
+        _gridIndexY += Mathf.RoundToInt(currentDirection.y);
+        
+        _nextPositionX = WrapPosition(LevelGenerator.gridSpaces[_gridIndexX, _gridIndexY].x, Mathf.RoundToInt(_gridSize.x));
+        _nextPositionY = WrapPosition(LevelGenerator.gridSpaces[_gridIndexX, _gridIndexY].y, Mathf.RoundToInt(_gridSize.y));
+        _nextPosition = new Vector2(_nextPositionX, _nextPositionY);
+        
+        _gameState.CheckForGameOver(_nextPosition);
 
-        _gameState.CheckForGameOver(nextPosition);
-
-        _snakeBody.snakeList.MoveNodes(transform, nextPosition);
-        transform.position = nextPosition;
+        _snakeBody.snakeList.MoveNodes(transform, _nextPosition);
+        transform.position = _nextPosition;
     }
 
-    private float CorrectEuler(float rotationValue)
+    private float WrapPosition(float value, int max)
     {
-        while (rotationValue > 360)
-        {
-            rotationValue = rotationValue - 360;
-        }
-        while (rotationValue < 0)
-        {
-            rotationValue = rotationValue + 360;
-        }
-
-        return rotationValue;
+        return ((value) % max+max) % max;
     }
-    
-    private float WrapPosition(float currentValue, int addValue, int max)
-    {
-        return ((currentValue + addValue) % max+max) % max;
-    }
-    
 }
