@@ -25,7 +25,7 @@ public class GridSizeToCamera : MonoBehaviour
         _gridWidth = Mathf.RoundToInt(_edgeVector.x * 2) + _offsetX;
         _gridHeight = Mathf.RoundToInt(_edgeVector.y * 2) + _offsetY;
 
-        Vector2 [,] arr = new Vector2[_gridWidth, _gridHeight];
+        Vector2 [,] arr = new Vector2[_gridHeight, _gridWidth];
         return arr;
     }
 }

@@ -13,7 +13,7 @@ public class LevelGenerator : MonoBehaviour
     private void Awake()
     {
         gridSpaces = GetComponent<GridSizeToCamera>().SetGridSize();
-        gridSize = new Vector2(gridSpaces.GetLength(0), gridSpaces.GetLength(1));
+        gridSize = new Vector2(gridSpaces.GetLength(1), gridSpaces.GetLength(0));
         _tileSize = 1;
     }
 
@@ -33,11 +33,13 @@ public class LevelGenerator : MonoBehaviour
             {
                 GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
                 tileGo.name = $"Tile_({x}, {y})";
-                gridSpaces[i, k] = tileGo.transform.position;
+                gridSpaces[k, i] = tileGo.transform.position;
 
-                x += _tileSize;
                 y += _tileSize;
             }
+
+            y = 0;
+            x += _tileSize;
         }
     }
 }

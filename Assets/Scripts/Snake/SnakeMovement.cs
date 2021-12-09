@@ -5,8 +5,8 @@ public class SnakeMovement : MonoBehaviour
 {
     private int _gridIndexX;
     private int _gridIndexY;
-    private float _nextPositionX;
-    private float _nextPositionY;
+    private int _nextIndexX;
+    private int _nextIndexY;
     private Vector2 _gridSize;
     private Vector2 _nextPosition;
     [SerializeField] private GameObject _levelManager;
@@ -24,7 +24,7 @@ public class SnakeMovement : MonoBehaviour
         _gridIndexX = 0;
         _gridIndexY = 0;
         _gridSize = LevelGenerator.gridSize;
-        transform.position = LevelGenerator.gridSpaces[_gridIndexX, _gridIndexY];
+        transform.position = LevelGenerator.gridSpaces[_gridIndexY, _gridIndexX];
     }
 
     public void MoveSnake(Vector2 currentDirection)
@@ -32,9 +32,9 @@ public class SnakeMovement : MonoBehaviour
         _gridIndexX += Mathf.RoundToInt(currentDirection.x);
         _gridIndexY += Mathf.RoundToInt(currentDirection.y);
         
-        _nextPositionX = WrapPosition(LevelGenerator.gridSpaces[_gridIndexX, _gridIndexY].x, Mathf.RoundToInt(_gridSize.x));
-        _nextPositionY = WrapPosition(LevelGenerator.gridSpaces[_gridIndexX, _gridIndexY].y, Mathf.RoundToInt(_gridSize.y));
-        _nextPosition = new Vector2(_nextPositionX, _nextPositionY);
+        _nextIndexX = WrapPosition(_gridIndexX, 0, Mathf.RoundToInt(_gridSize.x));
+        _nextIndexY = WrapPosition(_gridIndexY, 0, Mathf.RoundToInt(_gridSize.y));
+        _nextPosition = LevelGenerator.gridSpaces[_nextIndexY, _nextIndexX];
         
         _gameState.CheckForGameOver(_nextPosition);
 
@@ -42,8 +42,8 @@ public class SnakeMovement : MonoBehaviour
         transform.position = _nextPosition;
     }
 
-    private float WrapPosition(float value, int max)
+    private int WrapPosition(int currentValue, float addValue, int max)
     {
-        return ((value) % max+max) % max;
+        return Mathf.RoundToInt(((currentValue + addValue) % max+max) % max);
     }
 }
