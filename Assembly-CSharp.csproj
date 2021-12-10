@@ -64,6 +64,7 @@
      <Compile Include="Assets\Scripts\Snake\SnakeList.cs" />
      <Compile Include="Assets\Scripts\Snake\SnakeMovement.cs" />
      <Compile Include="Assets\Scripts\Game\GameState.cs" />
+     <Compile Include="Assets\Scripts\Level\Grid2D.cs" />
      <Compile Include="Assets\Scripts\FailedPathfinder\AISnakeController.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Users/tove.backenroth/OneDrive/Unity Projects/2020.3.19f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

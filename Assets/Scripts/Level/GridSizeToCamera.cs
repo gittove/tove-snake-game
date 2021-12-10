@@ -16,7 +16,7 @@ public class GridSizeToCamera : MonoBehaviour
         _offsetY = 2;
     }
 
-    public Vector2[,] SetGridSize()
+    public Vector2Int SetGridSize()
     {
         _mainCamera.GetComponent<CameraSizeToScreen>().SetCameraSize();
         _topRightCameraCorner = new Vector3(1f, 1f, Camera.main.nearClipPlane);
@@ -25,7 +25,7 @@ public class GridSizeToCamera : MonoBehaviour
         _gridWidth = Mathf.RoundToInt(_edgeVector.x * 2) + _offsetX;
         _gridHeight = Mathf.RoundToInt(_edgeVector.y * 2) + _offsetY;
 
-        Vector2 [,] arr = new Vector2[_gridHeight, _gridWidth];
-        return arr;
+        Vector2Int gridSize = new Vector2Int(_gridWidth, _gridHeight);
+        return gridSize;
     }
 }

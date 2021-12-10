@@ -518,6 +518,10 @@ PrefabInstance:
       value: LevelManager
       objectReference: {fileID: 0}
     - target: {fileID: 5325664130645314385, guid: 170ff03c1a16fa7408f7bb25fbfddc30, type: 3}
+      propertyPath: _boardParent
+      value: 
+      objectReference: {fileID: 1643739990}
+    - target: {fileID: 5325664130645314385, guid: 170ff03c1a16fa7408f7bb25fbfddc30, type: 3}
       propertyPath: _tilesTransform
       value: 
       objectReference: {fileID: 1643739990}

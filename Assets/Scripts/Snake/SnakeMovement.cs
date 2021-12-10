@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
 {
-    private int _gridIndexX;
-    private int _gridIndexY;
-    private int _nextIndexX;
-    private int _nextIndexY;
-    private Vector2 _gridSize;
-    private Vector2 _nextPosition;
+    private Vector2Int _startingGridIndex;
     [SerializeField] private GameObject _levelManager;
     private SnakeBody _snakeBody;
     private GameState _gameState;
@@ -21,29 +16,15 @@ public class SnakeMovement : MonoBehaviour
 
     private void Start()
     {
-        _gridIndexX = 0;
-        _gridIndexY = 0;
-        _gridSize = LevelGenerator.gridSize;
-        transform.position = LevelGenerator.gridSpaces[_gridIndexY, _gridIndexX];
+        _startingGridIndex = new Vector2Int(0, 0);
+        transform.position = LevelGenerator.grid2D.GetWorldPos(_startingGridIndex);
     }
 
-    public void MoveSnake(Vector2 currentDirection)
+    public void MoveSnake(Vector2 nextPosition)
     {
-        _gridIndexX += Mathf.RoundToInt(currentDirection.x);
-        _gridIndexY += Mathf.RoundToInt(currentDirection.y);
-        
-        _nextIndexX = WrapPosition(_gridIndexX, 0, Mathf.RoundToInt(_gridSize.x));
-        _nextIndexY = WrapPosition(_gridIndexY, 0, Mathf.RoundToInt(_gridSize.y));
-        _nextPosition = LevelGenerator.gridSpaces[_nextIndexY, _nextIndexX];
-        
-        _gameState.CheckForGameOver(_nextPosition);
+        _gameState.CheckForGameOver(nextPosition);
 
-        _snakeBody.snakeList.MoveNodes(transform, _nextPosition);
-        transform.position = _nextPosition;
-    }
-
-    private int WrapPosition(int currentValue, float addValue, int max)
-    {
-        return Mathf.RoundToInt(((currentValue + addValue) % max+max) % max);
+        _snakeBody.snakeList.MoveNodes(transform, nextPosition);
+        transform.position = nextPosition;
     }
 }

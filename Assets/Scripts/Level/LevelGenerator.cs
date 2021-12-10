@@ -3,18 +3,18 @@ using System;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [NonSerialized] public static Vector2 gridSize;
-    [NonSerialized] public static Vector2 [,] gridSpaces;
+    [NonSerialized] public static Vector2Int gridSize;
+    [NonSerialized] public static Grid2D grid2D;
 
     [NonSerialized] private int _tileSize;
     [SerializeField] private GameObject _tilePrefab;
-    [SerializeField] private Transform _tilesTransform;
+    [SerializeField] private Transform _boardParent;
 
     private void Awake()
     {
-        gridSpaces = GetComponent<GridSizeToCamera>().SetGridSize();
-        gridSize = new Vector2(gridSpaces.GetLength(1), gridSpaces.GetLength(0));
+        gridSize = GetComponent<GridSizeToCamera>().SetGridSize();
         _tileSize = 1;
+        grid2D = new Grid2D(gridSize, transform.position, _tileSize, _tilePrefab, _boardParent);
     }
 
     private void Start()
@@ -24,22 +24,22 @@ public class LevelGenerator : MonoBehaviour
 
     private void SetUpGrid()
     {
-        float x = transform.position.x;
-        float y = transform.position.y;
+        float tilePosX = grid2D.startingPos.x;
+        float tilePosY = grid2D.startingPos.y;
         
-        for (int i = 0; i < (int)gridSize.x; i++)
+        for (int i = 0; i < grid2D.grid.GetLength(1); i++)
         {
-            for (int k = 0; k < (int)gridSize.y; k++)
+            for (int k = 0; k < grid2D.grid.GetLength(0); k++)
             {
-                GameObject tileGo = Instantiate(_tilePrefab, new Vector3(x, y, 0f), Quaternion.identity, _tilesTransform);
-                tileGo.name = $"Tile_({x}, {y})";
-                gridSpaces[k, i] = tileGo.transform.position;
+                GameObject tileGo = Instantiate(grid2D.prefab, new Vector3(tilePosX, tilePosY, 0f), Quaternion.identity, grid2D.boardParent);
+                tileGo.name = $"Tile_({tilePosX}, {tilePosY})";
+                grid2D.grid[k, i] = tileGo.transform.position;
 
-                y += _tileSize;
+                tilePosY += grid2D.sizeOfTile;
             }
 
-            y = 0;
-            x += _tileSize;
+            tilePosY = 0;
+            tilePosX += grid2D.sizeOfTile;
         }
-    }
+    } 
 }

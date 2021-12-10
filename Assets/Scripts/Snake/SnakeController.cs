@@ -6,10 +6,11 @@ public class SnakeController : MonoBehaviour
     private float _moveQueue;
     private float _moveTimer;
     private Quaternion _nextRotation;
-    private Vector2 _currentDirection;
+    private Vector2 _nextPosition;
+    private Vector2Int _currentDirection;
     private SnakeMovement _snakeMovement;
-    private Dictionary<string, Vector2> _directionValues;
-    private Dictionary<Vector2, Vector3> _rotationValues;
+    private Dictionary<string, Vector2Int> _directionValues;
+    private Dictionary<Vector2Int, Vector3Int> _rotationValues;
 
     private void Awake()
     {
@@ -34,7 +35,8 @@ public class SnakeController : MonoBehaviour
 
         if (_moveTimer >= _moveQueue)
         {
-            _snakeMovement.MoveSnake(_currentDirection);
+            _nextPosition = LevelGenerator.grid2D.GetWorldPos(_currentDirection);
+            _snakeMovement.MoveSnake(_nextPosition);
             _moveTimer = 0f;
         }
     }
@@ -63,7 +65,7 @@ public class SnakeController : MonoBehaviour
         }
     }
 
-    private void ChangeDirection(Vector2 direction)
+    private void ChangeDirection(Vector2Int direction)
     {
         _currentDirection = direction;
         _nextRotation = Quaternion.Euler(_rotationValues[direction]);
@@ -73,19 +75,19 @@ public class SnakeController : MonoBehaviour
 
     private void GetRotationValues()
     {
-        _rotationValues = new Dictionary<Vector2, Vector3>();
-        _rotationValues.Add(new Vector2(0f, 1f), new Vector3(0f, 0f, 90f));
-        _rotationValues.Add(new Vector2(0f, -1f), new Vector3(0f, 0f, -90f));
-        _rotationValues.Add(new Vector2(1f, 0f), new Vector3(0f, 0f, 0f));
-        _rotationValues.Add(new Vector2(-1f, 0f), new Vector3(0f, 0f, 180f));
+        _rotationValues = new Dictionary<Vector2Int, Vector3Int>();
+        _rotationValues.Add(new Vector2Int(0, 1), new Vector3Int(0, 0, 90));
+        _rotationValues.Add(new Vector2Int(0, -1), new Vector3Int(0, 0, -90));
+        _rotationValues.Add(new Vector2Int(1, 0), new Vector3Int(0, 0, 0));
+        _rotationValues.Add(new Vector2Int(-1, 0), new Vector3Int(0, 0, 180));
     }
 
     private void GetDirectionValues()
     {
-        _directionValues = new Dictionary<string, Vector2>();
-        _directionValues.Add("left", new Vector2(-1f, 0f));
-        _directionValues.Add("right", new Vector2(1f, 0f));
-        _directionValues.Add("up", new Vector2(0f, 1f));
-        _directionValues.Add("down", new Vector2(0f, -1f));
+        _directionValues = new Dictionary<string, Vector2Int>();
+        _directionValues.Add("left", new Vector2Int(-1, 0));
+        _directionValues.Add("right", new Vector2Int(1, 0));
+        _directionValues.Add("up", new Vector2Int(0, 1));
+        _directionValues.Add("down", new Vector2Int(0, -1));
     }
 }
