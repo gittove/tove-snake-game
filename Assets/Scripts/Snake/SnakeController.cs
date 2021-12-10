@@ -45,22 +45,18 @@ public class SnakeController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W) && _currentDirection != _directionValues["down"])
         {
-            Debug.Log("up");
             ChangeDirection(_directionValues["up"]);
         }
         if (Input.GetKeyDown(KeyCode.S) && _currentDirection != _directionValues["up"])
         {
-            Debug.Log("down");
             ChangeDirection(_directionValues["down"]);
         }
         if (Input.GetKeyDown(KeyCode.D) && _currentDirection != _directionValues["left"])
         {
-            Debug.Log("right");
             ChangeDirection(_directionValues["right"]);
         }
         if (Input.GetKeyDown(KeyCode.A) && _currentDirection != _directionValues["right"])
         {
-            Debug.Log("left");
             ChangeDirection(_directionValues["left"]);
         }
     }
